@@ -1,0 +1,40 @@
+<header class="topbar">
+  <div class="brand"><span>BH</span> Bounty Hunt</div>
+  <button class="primary-button">New bounty</button>
+</header>
+
+<main>
+  <section class="heading">
+    <div><p>OPEN OPPORTUNITIES</p><h1>Find your next bounty</h1></div>
+    <div class="metric"><strong>{{ bounties.length }}</strong><span>Open bounties</span></div>
+  </section>
+
+  <label class="search"><span aria-hidden="true">⌕</span><input [(ngModel)]="search" type="search" placeholder="Search bounties"></label>
+
+  <section class="marketplace">
+    <div class="bounty-list">
+      <p class="loading" *ngIf="loading">Loading bounties...</p>
+      <button *ngFor="let bounty of filteredBounties" class="bounty-card" [class.selected]="selected?.id === bounty.id" (click)="selectBounty(bounty)">
+        <span class="category">{{ bounty.category }}</span>
+        <strong class="reward">{{ formatReward(bounty.reward) }}</strong>
+        <h2>{{ bounty.title }}</h2>
+        <p>{{ bounty.description }}</p>
+      </button>
+    </div>
+
+    <aside class="detail" *ngIf="selected">
+      <span class="category">{{ selected.category }}</span>
+      <h2>{{ selected.title }}</h2>
+      <span>Reward</span><strong class="detail-reward">{{ formatReward(selected.reward) }}</strong>
+      <h3>Description</h3><p>{{ selected.description }}</p>
+      <button class="primary-button full">View bounty</button>
+    </aside>
+  </section>
+
+  <section class="agents">
+    <div><p>LANGGRAPH AGENTS</p><h2>Plan an implementation</h2></div>
+    <textarea [(ngModel)]="agentRequest" rows="3"></textarea>
+    <button class="primary-button" (click)="runAgent()">Run agent team</button>
+    <pre *ngIf="agentResult">{{ agentResult }}</pre>
+  </section>
+</main>
